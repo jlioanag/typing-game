@@ -1,31 +1,49 @@
-from Tkinter import Tk, Label, Button
 import random
 import time
+import Tkinter as tk
+
+# Resources: https://www.youtube.com/watch?v=IYHJRnVOFlw
+# Written in Python 2.7 (Does not work in 3+)
 
 
 class TypingGame:
+
     def __init__(self, master):
-        self.master = master
-        master.title("A simple GUI")
+        frame = tk.Frame(master)
+        frame.pack()
 
-        self.label = Label(master, text="This is our first GUI!")
-        self.label.pack()
+        # Start button
+        self.start_button = tk.Button(frame, text="Start", command=self.run_game)
+        self.start_button.pack()
 
-        self.greet_button = Button(master, text="Greet", command=self.countdown(65))
-        self.greet_button.pack()
+        # Timer label
+        self.timer_label = tk.Label(frame, text="")
+        self.timer_label.pack()
 
-        self.close_button = Button(master, text="Close", command=master.quit)
-        self.close_button.pack()
+        # Current word label
+        self.current_word_label = tk.Label(frame, text="")
+        self.current_word_label.pack()
 
-    def countdown(self, t):
-        while t:
-            mins, secs = divmod(t, 60)
-            timeformat = '{:02d}:{:02d}'.format(mins, secs)
-            print(timeformat)
-            time.sleep(1)
-            t -= 1
+        # Entry text box
+        self.entry = tk.Entry(frame)
+        self.entry.bind("<Return>", self.next_word)
+        self.entry.pack()
+        self.entry.focus_set()
 
-    def grab_words(self):
+        # Next button (Just for debugging purposes)
+        self.next_button = tk.Button(frame, text="Next", command=self.next_word)
+        self.next_button.pack()
+
+        # Instance variables
+        self.count = 0
+        self.final_list = list()
+        self.entered_word = ""
+        self.curr_time = 90
+        self.wpm = None
+
+    # Reads and returns each line from 'words_alpha.txt'
+    @staticmethod
+    def grab_words():
         print("Reading words_alpha.txt...")
 
         f = open('words_alpha.txt', "r")
@@ -34,25 +52,88 @@ class TypingGame:
 
         return lines
 
-    def preset_words(self, w_list):
+    # Chooses 50 random words from the entire list
+    @staticmethod
+    def choose_words(w_list):
         print("Choosing words...")
-
         c_words = list()
 
         for i in range(50):
-            c_words.append(w_list[random.randint(1, len(w_list) + 1)])
+            key = random.randint(1, len(w_list) + 1)
+            if len(w_list[key]) > 3:
+                c_words.append(w_list[key])
+        print(c_words)
 
         return c_words
 
+    # Removes excess characters for user-friendliness
+    @staticmethod
+    def clean_words(w_list):
+        print("Cleaning text...")
+
+        to_filter = list()
+
+        for word in w_list:
+            new_word = word[:-2]
+            to_filter.append(new_word)
+
+        return to_filter
+
+    # Parent function
     def run_game(self):
         print("Started...")
 
+        # Sets 'word_list' to the list of words from 'words_alpha.txt'
         word_list = self.grab_words()
-        chosen_words = self.preset_words(word_list)
+        # Sets 'chosen_words' to the list of 50 cleaned, selected words
+        chosen_words = self.clean_words(self.choose_words(word_list))
 
+        print("Ready.")
+
+        # Debug in terminal
         print(chosen_words)
+        print(len(chosen_words))
+
+        # Transfers 'chosen_words' to instance variable: 'final_list'
+        self.final_list = chosen_words
+        self.update_word()
+        self.timer()
+
+    # Updates 'current_word_label' when needed and deletes whatever is in the entry box
+    def update_word(self):
+        self.current_word_label.configure(text=self.final_list[self.count])
+        self.entry.delete(0, tk.END)
+
+    # Cycles through 'final_list' to get the next word
+    def next_word(self, foo):
+        self.entered_word = self.entry.get()
+
+        # If the user spells the word correctly;
+        if self.entered_word == self.final_list[self.count]:
+            print("Correct spelling of:", self.final_list[self.count])
+            self.count += 1
+            self.update_word()
+        else:
+            print("Incorrect spelling of:", self.final_list[self.count])
+
+    # Runs timer
+    def timer(self):
+        # Stops timer if 'curr_time' is 0 or the count has reached 50
+        if self.curr_time <= 0 or self.count == 50:
+            self.update_wpm()
+            self.timer_label.configure(text=self.wpm)
+            print("Count", self.count)
+            print("WPM", self.wpm)
+        else:
+            self.timer_label.configure(text=self.curr_time)
+            self.curr_time -= 1
+            # Recursively calls 'timer' method after 1 second
+            self.timer_label.after(1000, self.timer)
+
+    def update_wpm(self):
+        self.wpm = str(round(self.count / (90/60.0), 2)) + " WPM"
 
 
-root = Tk()
-gui = TypingGame(root)
+root = tk.Tk()
+t = TypingGame(root)
 root.mainloop()
