@@ -30,16 +30,16 @@ class TypingGame:
         self.entry.pack()
         self.entry.focus_set()
 
-        # Next button (Just for debugging purposes)
-        self.next_button = tk.Button(frame, text="Next", command=self.next_word)
-        self.next_button.pack()
+        # Resets program
+        self.reset_button = tk.Button(frame, text="Reset", command=self.reset)
 
         # Instance variables
         self.count = 0
         self.final_list = list()
         self.entered_word = ""
-        self.curr_time = 90
+        self.curr_time = 30
         self.wpm = None
+        self.char_count = 0
 
     # Reads and returns each line from 'words_alpha.txt'
     @staticmethod
@@ -52,6 +52,24 @@ class TypingGame:
 
         return lines
 
+    # Restarts program to run again
+    def reset(self):
+        self.count = 0
+        self.final_list = list()
+        self.entered_word = ""
+        self.curr_time = 30
+        self.wpm = None
+        self.char_count = 0
+
+        self.current_word_label.configure(text="")
+        self.timer_label.configure(text="")
+        self.entry.delete(0, tk.END)
+
+        self.reset_button.pack_forget()
+        self.start_button.pack()
+        self.entry.pack()
+        self.entry.focus_set()
+
     # Chooses 50 random words from the entire list
     @staticmethod
     def choose_words(w_list):
@@ -60,7 +78,7 @@ class TypingGame:
 
         for i in range(50):
             key = random.randint(1, len(w_list) + 1)
-            if len(w_list[key]) > 3:
+            if len(w_list[key]) > 5:
                 c_words.append(w_list[key])
         print(c_words)
 
@@ -99,10 +117,16 @@ class TypingGame:
         self.update_word()
         self.timer()
 
+        self.start_button.pack_forget()
+
     # Updates 'current_word_label' when needed and deletes whatever is in the entry box
     def update_word(self):
         self.current_word_label.configure(text=self.final_list[self.count])
         self.entry.delete(0, tk.END)
+
+    def add_char(self):
+        self.char_count += len(self.final_list[self.count])
+        print("Char count for", self.final_list[self.count], " is ", len(self.final_list[self.count]))
 
     # Cycles through 'final_list' to get the next word
     def next_word(self, foo):
@@ -111,6 +135,9 @@ class TypingGame:
         # If the user spells the word correctly;
         if self.entered_word == self.final_list[self.count]:
             print("Correct spelling of:", self.final_list[self.count])
+            # Add character amount to total
+            self.add_char()
+            # Increment count to next word
             self.count += 1
             self.update_word()
         else:
@@ -122,16 +149,21 @@ class TypingGame:
         if self.curr_time <= 0 or self.count == 50:
             self.update_wpm()
             self.timer_label.configure(text=self.wpm)
-            print("Count", self.count)
+
+            self.reset_button.pack()
+            self.entry.pack_forget()
+
+            print("Word Count", self.count)
             print("WPM", self.wpm)
         else:
             self.timer_label.configure(text=self.curr_time)
             self.curr_time -= 1
-            # Recursively calls 'timer' method after 1 second
+            # Recursively calls 'timer' function after 1 second
             self.timer_label.after(1000, self.timer)
 
     def update_wpm(self):
-        self.wpm = str(round(self.count / (90/60.0), 2)) + " WPM"
+        self.wpm = str(round((self.char_count / 5) / (30 / 60.0), 2)) + " WPM"
+        print("Char count", self.char_count)
 
 
 root = tk.Tk()
