@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="05fb5357-6f6b-447b-9f92-03b51f1e07ac" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/words_alpha.txt" beforeDir="false" afterPath="$PROJECT_DIR$/words_alpha.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,8 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/typing_game.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="142" column="10" selection-start-line="142" selection-start-column="10" selection-end-line="142" selection-end-column="10" />
+            <state relative-caret-position="315">
+              <caret line="156" column="29" selection-end-line="171" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -59,9 +58,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="647" />
+    <option name="x" value="10" />
     <option name="y" value="30" />
-    <option name="width" value="623" />
+    <option name="width" value="1260" />
     <option name="height" value="770" />
   </component>
   <component name="ProjectView">
@@ -189,15 +188,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="647" y="30" width="623" height="770" extended-state="0" />
+    <frame x="10" y="30" width="1260" height="770" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4979757" visible="true" weight="0.1013289" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4979757" visible="true" weight="0.10088781" />
       <window_info id="Structure" order="1" sideWeight="0.5020243" side_tool="true" weight="0.25496426" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.2758112" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.27433628" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -234,8 +233,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/typing_game.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="142" column="10" selection-start-line="142" selection-start-column="10" selection-end-line="142" selection-end-column="10" />
+        <state relative-caret-position="315">
+          <caret line="156" column="29" selection-end-line="171" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
