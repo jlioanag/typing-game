@@ -41,17 +41,6 @@ class TypingGame:
         self.wpm = None
         self.char_count = 0
 
-    # Reads and returns each line from 'words_alpha.txt'
-    @staticmethod
-    def grab_words():
-        print("Reading words_alpha.txt...")
-
-        f = open('words_alpha.txt', "r")
-        lines = f.readlines()
-        f.close()
-
-        return lines
-
     # Restarts program to run again
     def reset(self):
         self.count = 0
@@ -69,6 +58,17 @@ class TypingGame:
         self.start_button.pack()
         self.entry.pack()
         self.entry.focus_set()
+
+    # Reads and returns each line from 'words_alpha.txt'
+    @staticmethod
+    def grab_words():
+        print("Reading words_alpha.txt...")
+
+        f = open('words_alpha.txt', "r")
+        lines = f.readlines()
+        f.close()
+
+        return lines
 
     # Chooses 50 random words from the entire list
     @staticmethod
